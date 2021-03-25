@@ -1,0 +1,55 @@
+{
+  "name": "vite-plugin-mdx-vue",
+  "version": "1.0.0",
+  "author": {
+    "name": "Mesut Koca",
+    "email": "imesutkoca@gmail.com"
+  },
+  "homepage": "https://github.com/koca/vue-mdx",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koca/vue-mdx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/koca/vue-mdx/issues"
+  },
+  "keywords": [
+    "mdx",
+    "vue"
+  ],
+  "description": "desc",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "module": "dist/vitemdx.esm.js",
+  "unpkg": "dist/vitemdx.esm.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsdx build --format cjs,esm --name ViteMdx",
+    "test": "tsdx test",
+    "test:watch": "tsdx test --watchAll",
+    "test:cov": "tsdx test --collectCoverage",
+    "lint": "eslint src",
+    "lint:tsdx:not-working": "tsdx lint"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.10.1",
+    "@testing-library/vue": "^5.0.4",
+    "@vue/cli-plugin-unit-jest": "^4.4.4",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
+    "rollup-plugin-postcss": "^3.1.2",
+    "tsdx": "^0.13.2",
+    "typescript": "^3.9.3",
+    "vue-jest": "^3.0.5"
+  },
+  "dependencies": {
+    "vue-mdx-bundler": "1.0.0",
+    "xdm": "^1.5.1"
+  },
+  "engines": {
+    "node": ">=10"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "root",
+  "description": "vue-mdx",
+  "author": {
+    "name": "Mesut Koca",
+    "email": "imesutkoca@gmail.com"
+  },
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "eslint packages/ --fix"
+    }
+  },
+  "scripts": {
+    "bootstrap": "lerna bootstrap --use-workspaces",
+    "build:mdx": "yarn workspace vue-mdx-bundler build",
+    "build:vite": "yarn workspace vite-plugin-mdx-vue build",
+    "docs": "yarn workspace docs dev",
+    "docs:build": "yarn workspace docs build",
+    "lint": "eslint packages/ --fix",
+    "test": "yarn workspace vue-mdx-bundler test",
+    "test:watch": "yarn workspace vue-mdx-bundler test:watch",
+    "test:cov": "yarn workspace vue-mdx-bundler test:cov"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.14.1",
+    "@typescript-eslint/eslint-plugin": "^4.19.0",
+    "@typescript-eslint/parser": "^4.19.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.22.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-vue": "^7.8.0",
+    "husky": "^4.3.8",
+    "lerna": "^3.22.0",
+    "prettier": "^2.2.1"
+  }
+}

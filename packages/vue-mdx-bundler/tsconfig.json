@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.lib.json",
+  "files": [
+    "../../typings.d.ts"
+  ],
+  "include": [
+    "src",
+    "tests",
+    "types"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "__tests__",
+    "**/*.test*",
+    "**/*.spec*"
+  ],
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "composite": true,
+    "noEmit": false,
+    "target": "ES2020",
+    "module": "CommonJS",
+  }
+}

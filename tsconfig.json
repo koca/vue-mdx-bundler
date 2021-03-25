@@ -1,0 +1,36 @@
+{
+  "extends": "./tsconfig.lib.json",
+  "include": [
+    "packages",
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "__tests__",
+    "**/*.test*",
+    "**/*.spec*"
+  ],
+  "compilerOptions": {
+    "rootDir": "./",
+    "baseUrl": "./",
+    "outDir": "",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
+  },
+  "typeRoots": [
+    "./types",
+    "./node_modules/@types"
+  ],
+  "references": [
+    {
+      "path": "./packages/vite-plugin-mdx-vue"
+    },
+    {
+      "path": "./packages/vue-mdx-bundler"
+    },
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "name": "vue-mdx-bundler",
+  "version": "1.0.0",
+  "author": {
+    "name": "Mesut Koca",
+    "email": "imesutkoca@gmail.com"
+  },
+  "homepage": "https://github.com/koca/vue-mdx",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koca/vue-mdx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/koca/vue-mdx/issues"
+  },
+  "keywords": [
+    "mdx",
+    "vue"
+  ],
+  "description": "desc",
+  "main": "dist/index.js",
+  "typings": "dist/src/index.d.ts",
+  "files": [
+    "dist",
+    "client.js",
+    "client.d.ts",
+    "index.d.ts"
+  ],
+  "sideEffects": false,
+  "module": "dist/index.js",
+  "unpkg": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "kcd-scripts build",
+    "test": "kcd-scripts test"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.10.1",
+    "@testing-library/vue": "^6.3.4",
+    "jest-environment-jsdom": "^26.6.2",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
+    "jest-module-field-resolver": "^0.0.1",
+    "kcd-scripts": "^8.1.1",
+    "typescript": "^4.2.3",
+    "vue-jest": "^3.0.5"
+  },
+  "peerDependencies": {},
+  "dependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/runtime": "^7.13.10",
+    "@esbuild-plugins/node-resolve": "0.0.14",
+    "@fal-works/esbuild-plugin-global-externals": "^2.1.1",
+    "@vue/babel-plugin-jsx": "^1.0.3",
+    "@vue/server-renderer": "^3.0.7",
+    "esbuild": "0.9.0",
+    "gray-matter": "^4.0.2",
+    "remark-frontmatter": "^3.0.0",
+    "remark-mdx-frontmatter": "^1.0.0",
+    "xdm": "^1.5.1"
+  },
+  "engines": {
+    "node": ">=10"
+  }
+}
