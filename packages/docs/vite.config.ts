@@ -1,5 +1,6 @@
 import path from 'path'
 import { defineConfig } from 'vite'
+import vue from 'vue'
 import Vue from '@vitejs/plugin-vue'
 import WindiCSS from 'vite-plugin-windicss'
 import Pages from 'vite-plugin-pages'
@@ -19,18 +20,23 @@ export default defineConfig({
 
   plugins: [
     ViteRestart({ restart: '../../packages/vite-plugin-mdx-vue/src/*.*' }), // DEV mode only u dont need this.
-    Vue({ include: [/\.vue$/] }),
+    Vue({ include: [/\.vue$/, /\.mdx$/] }),
+    Pages({
+      extensions: ['vue', 'mdx'],
+    }),
     ViteComponents({
-      dirs: ['src/components', 'src/default-theme', 'src/examples'],
       // allow auto load markdown components under `./src/components/`
-      extensions: ['vue'],
+      extensions: ['vue', 'mdx'],
 
       // allow auto import and register components used in markdown
+      customLoaderMatcher: (path) => path.endsWith('.mdx'),
     }),
 
-    VueMdx(),
-    Pages({
-      extensions: ['vue'],
+    VueMdx({
+      mdxComponents: {
+        em: (props, context) => vue.h('i', { style: 'color:blue' }, context.slots),
+        D: () => '<3',
+      },
     }),
 
     WindiCSS({
