@@ -1,12 +1,13 @@
 import type { Plugin } from 'vite'
-import { createMdxTransformer, createMdxTransformerSFC } from './transform'
+import { createMdxTransformerSFC } from './transform'
+import { createMdxTransformer } from './transformJs'
 import { Options } from './types'
 
-function VitePluginVueMdx(userOptions: Options = { sfc: false }): Plugin {
-  let mdxToVue = createMdxTransformer(userOptions)
+function VitePluginVueMdx(userOptions: Options = { namedExports: false }): Plugin {
+  let mdxToVue = createMdxTransformerSFC(userOptions)
 
-  if (userOptions.sfc) {
-    mdxToVue = createMdxTransformerSFC(userOptions)
+  if (userOptions.namedExports) {
+    mdxToVue = createMdxTransformer(userOptions)
   }
 
   return {

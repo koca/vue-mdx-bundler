@@ -1,58 +1,37 @@
-import { bundleMDX } from 'vue-mdx-bundler'
+import { renderToString } from '@vue/server-renderer'
+import { bundleMDX, getMDXComponent } from 'vue-mdx-bundler'
 import { Options } from './types'
+import vue from 'vue'
 
-export function createMdxTransformer(userOptions: Options = {}) {
+export function createMdxTransformerSFC(userOptions: Options = { mdxComponents: {} }) {
   return async (_id: string, raw: string) => {
     let bundled = await bundleMDX(raw, userOptions)
-    bundled.code = bundled.code.replace(/return Component.default;/, '') // remove return statement in bundled code
 
-    return `
-import * as vue from "vue"; // we need this for bundled vue code
+    // we are getting 'Failed to resolve component' errors
+    // we know that vite-plugin-components will add that.
+    // so we need to disable console.warns
+    // mock console? or any ideas?
+    const MdxComponent = getMDXComponent(bundled.code)
 
-export const MdxContent = {
-  props: ['components'],
-  setup (props) {
-    ${bundled.code}
-    const MdxContent = Component.default({
-      components: props.components
-    });
-    return () => {
-      return MdxContent;
-    }
-  }
-};
+    // to support vite-plugin-components we need to render template to string
+    const renderedTemplate = await renderToString(
+      vue.createSSRApp({
+        components: {
+          MdxComponent,
+        },
+        template: '<MdxComponent :components="mdxComponents" />',
+        setup() {
+          return {
+            mdxComponents: userOptions.mdxComponents,
+          }
+        },
+      })
+    )
 
-export const frontmatter = ${JSON.stringify(bundled.frontmatter)}; `.trim()
-  }
-}
-
-export function createMdxTransformerSFC(userOptions: Options = {}) {
-  return async (_id: string, raw: string) => {
-    let bundled = await bundleMDX(raw, userOptions)
-    bundled.code = bundled.code.replace(/return Component.default;/, '')
-
-    const sfc = `<template><MdxContent /></template>
+    const sfc = `<template>${renderedTemplate}</template>
 <script>
-import * as vue from "vue";
-export default {
-  props: ['components'],
-  setup (props) {
-    console.log({props})
-
-    // console.log({exists: __vite_components_0 })
-
-
-    ${bundled.code}
-    const MdxContent = Component.default({
-      components: props.components
-    });
-
-    return () => {
-      return MdxContent;
-    }
-  }
-}
-</script>`
+export default {}
+</script>`.trim()
 
     return sfc
   }

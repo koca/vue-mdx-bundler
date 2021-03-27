@@ -46,6 +46,8 @@
     "vue-jest": "^3.0.5"
   },
   "dependencies": {
+    "@vue/compiler-sfc": "^3.0.9",
+    "@vue/server-renderer": "^3.0.9",
     "vue-mdx-bundler": "1.0.0",
     "xdm": "^1.5.1"
   },
