@@ -1,9 +1,17 @@
 <template>
-  <div style="color: red">Custom Component</div>
+  <div class="ring-2">
+    Custom Component counter: {{ counter }}
+    <button @click="counter++" class="bg-blue-400 text-white rounded py-2 px-4">add</button>
+  </div>
 </template>
 
 <script>
-export default {}
+import { ref } from 'vue'
+export default {
+  setup() {
+    return { counter: ref(0) }
+  },
+}
 </script>
 
 <style></style>

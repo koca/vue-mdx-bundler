@@ -33,8 +33,9 @@ export default defineConfig({
     }),
 
     VueMdx({
+      wrapperComponent: 'mdx-layout-wrapper',
       mdxComponents: {
-        em: (props, context) => vue.h('i', { style: 'color:blue' }, context.slots),
+        em: (props, context) => vue.h('i', { style: 'color:skyblue' }, context.slots),
         D: () => '<3',
       },
     }),

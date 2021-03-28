@@ -28,6 +28,11 @@ module.exports = {
     {
       files: ['**/*.vue'],
       extends: ['plugin:prettier/recommended', 'plugin:vue/vue3-essential'],
+      rules: {
+        // <script setup> and <style vars> are not yet supported  https://github.com/vuejs/eslint-plugin-vue/issues/1248
+        'no-undef': 'off',
+        'no-unused-vars': 'off',
+      },
     },
     {
       files: ['**/*.ts?(x)'],

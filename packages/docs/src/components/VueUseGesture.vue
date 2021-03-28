@@ -1,5 +1,5 @@
 <template>
-  <span class="text-orange-400">
+  <span class="text-orange-500">
     👍 &zwnj; &zwnj;Vue
     <span class="font-bold">UseGesture</span>
   </span>
