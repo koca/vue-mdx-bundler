@@ -4,13 +4,10 @@ import { Options } from './types'
 import vue from 'vue'
 
 export function createMdxTransformerSFC(userOptions: Options = { mdxComponents: {} }) {
+  userOptions.mockResolveComponent = true
   return async (_id: string, raw: string) => {
     let bundled = await bundleMDX(raw, userOptions)
 
-    // we are getting 'Failed to resolve component' errors
-    // we know that vite-plugin-components will add that.
-    // so we need to disable console.warns
-    // mock console? or any ideas?
     const MdxComponent = getMDXComponent(bundled.code)
 
     // to support vite-plugin-components we need to render template to string
