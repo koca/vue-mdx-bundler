@@ -106,6 +106,17 @@ export type BundleMDXOptions = {
    * ```
    */
   globals?: Record<string, string | ModuleInfo>
+
+  /**
+   * Mocks vue's resolveComponent to just return the name of component.
+   *
+   * when using vite-plugin-components: we know that it will handle the component imports
+   * but we will be getting 'Failed to resolve component' errors
+   * so we need to mock vue's resolveComponent
+   *
+   * @default false
+   */
+  mockResolveComponent?: boolean
 }
 
 async function bundleMDX(
@@ -115,6 +126,7 @@ async function bundleMDX(
     xdmOptions = (_vfileCompatible: VFileCompatible, options: CompileOptions) => options,
     esbuildOptions = (options: ESBuildOptions) => options,
     globals = {},
+    mockResolveComponent = false,
   }: BundleMDXOptions = {}
 ) {
   // xdm is a native ESM, and we're running in a CJS context. This is the
@@ -187,6 +199,19 @@ async function bundleMDX(
             //   'import vue from "vue"; const {isVNode: _isVNode, createVNode: _createVNode, createTextVNode: _createTextVNode, Fragment: _Fragment} = vue'
             // )
 
+            if (mockResolveComponent) {
+              // remove resolveComponent
+              vueJsCode = vueJsCode.replace(/resolveComponent as _resolveComponent,/, '')
+
+              // mock resolveComponent
+              const customResolveComponent = `function _resolveComponent(name){ return name }`
+
+              /// add mocked Function
+              vueJsCode = vueJsCode.replace(
+                /export default MDXContent;/,
+                `${customResolveComponent} export default MDXContent;`
+              )
+            }
             return { contents: vueJsCode, loader: 'jsx' } //
           }
           default:
