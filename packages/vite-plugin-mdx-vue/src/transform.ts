@@ -5,6 +5,8 @@ import vue from 'vue'
 
 export function createMdxTransformerSFC(userOptions: Options = { mdxComponents: {} }) {
   userOptions.mockResolveComponent = true
+  const { wrapperComponent } = userOptions
+
   return async (_id: string, raw: string) => {
     let bundled = await bundleMDX(raw, userOptions)
 
@@ -25,9 +27,14 @@ export function createMdxTransformerSFC(userOptions: Options = { mdxComponents: 
       })
     )
 
-    const sfc = `<template>${renderedTemplate}</template>
+    const sfc = `<template><${wrapperComponent} :frontmatter="frontmatter">${renderedTemplate}</${wrapperComponent}></template>
 <script>
-export default {}
+const frontmatter = ${JSON.stringify(bundled.frontmatter)}
+export default {
+  setup(){
+    return { frontmatter }
+  }
+}
 </script>`.trim()
 
     return sfc

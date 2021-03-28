@@ -27,4 +27,9 @@ export type Options = {
    * }
    */
   mdxComponents?: Object
+
+  /**
+   * Wrapper component name
+   */
+  wrapperComponent?: string | undefined | null
 } & BundleMDXOptions
