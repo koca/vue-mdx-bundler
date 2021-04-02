@@ -27,7 +27,11 @@ export function createMdxTransformerSFC(userOptions: Options = { mdxComponents: 
       })
     )
 
-    const sfc = `<template><${wrapperComponent} :frontmatter="frontmatter">${renderedTemplate}</${wrapperComponent}></template>
+    const sfcTemplate = wrapperComponent
+      ? `<${wrapperComponent} :frontmatter="frontmatter">${renderedTemplate}</${wrapperComponent}>`
+      : renderedTemplate
+
+    const sfc = `<template>${sfcTemplate}</template>
 <script>
 const frontmatter = ${JSON.stringify(bundled.frontmatter)}
 export default {
