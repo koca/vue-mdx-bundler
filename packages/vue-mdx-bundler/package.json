@@ -32,7 +32,8 @@
   "license": "MIT",
   "scripts": {
     "build": "kcd-scripts build",
-    "test": "kcd-scripts test"
+    "test": "kcd-scripts test",
+    "test:watch": "kcd-scripts test --watch"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.10.1",
