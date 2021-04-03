@@ -1,5 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`import js files 1`] = `
+<div>
+  
+  <div>
+    im imported from a js file
+  </div>
+  
+</div>
+`;
+
 exports[`returns code and frontmatter 1`] = `
 <div>
   

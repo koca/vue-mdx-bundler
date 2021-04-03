@@ -40,6 +40,35 @@ Here's **neat** demo:
   })
 })
 
+test('import js files', async () => {
+  const mdxSource = `
+import Demo from './demo'
+
+<Demo />
+`.trim()
+
+  const result = await bundleMDX(mdxSource, {
+    files: {
+      './demo.js': `
+import {h} from "vue"
+function Demo() {
+  return h('div', 'im imported from a js file');
+}
+export default Demo
+      `.trim(),
+    },
+  })
+
+  const MdxComponent = getMDXComponent(result.code)
+
+  const { container } = render({
+    template: '<MdxComponent></MdxComponent>',
+    components: { MdxComponent },
+  })
+
+  expect(container).toMatchSnapshot()
+})
+
 test('files is optional', async () => {
   await expect(bundleMDX('hello')).resolves.toBeTruthy()
 })
