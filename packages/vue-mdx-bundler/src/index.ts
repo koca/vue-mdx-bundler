@@ -179,6 +179,13 @@ async function bundleMDX(
         const contents = absoluteFiles[filePath]
 
         switch (fileType) {
+          case 'vue': {
+            // TODO: eslint plugin vue
+            return {
+              contents,
+              resolveDir: path.dirname(filePath),
+            }
+          }
           case 'mdx': {
             const vFileCompatible: VFileCompatible = {
               path: filePath,

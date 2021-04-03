@@ -22,7 +22,7 @@ Here's **neat** demo:
   // import * as vue from "vue";
   // export const MdxContent = () => { ${result.code} };
   // export const frontmatter = ${JSON.stringify(result.frontmatter)}; `.trim()
-  console.log(result.code)
+  // console.log(result.code)
 
   const MdxComponent = getMDXComponent(result.code)
 
@@ -71,4 +71,29 @@ export default Demo
 
 test('files is optional', async () => {
   await expect(bundleMDX('hello')).resolves.toBeTruthy()
+})
+
+// we need to use sth like esbuild plugin vue
+test.skip('import vue files', async () => {
+  const mdxSource = `
+import Demo from './demo.vue'
+
+<Demo />
+`.trim()
+
+  const result = await bundleMDX(mdxSource, {
+    files: {
+      './demo.vue': `export default { setup () { return {msg: 'heyx'} }}
+      `.trim(),
+    },
+  })
+
+  const MdxComponent = getMDXComponent(result.code)
+
+  const { container } = render({
+    template: '<MdxComponent></MdxComponent>',
+    components: { MdxComponent },
+  })
+
+  expect(container).toMatchSnapshot()
 })
