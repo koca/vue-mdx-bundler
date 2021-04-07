@@ -19,8 +19,8 @@ import { useRoute } from 'vue-router'
 import { useHead } from '@vueuse/head'
 const { path } = useRoute()
 const rootPath = '/'
-const blogPath = rootPath.endsWith('/') ? `${rootPath}blog` : `${rootPath}/blog`
-const docsPath = rootPath.endsWith('/') ? `${rootPath}docs` : `${rootPath}/docs`
+const blogPath = `${rootPath}blog`
+const docsPath = `${rootPath}docs`
 const isBlog = computed(() => path.startsWith(blogPath))
 const isDocs = computed(() => path.startsWith(docsPath))
 const props = defineProps<{ frontmatter: { title: string } }>()
