@@ -1,5 +1,11 @@
 # vite-plugin-mdx-vue
 
+## 1.1.1
+
+### Patch Changes
+
+- change bundling lib
+
 ## 1.1.0
 
 ### Minor Changes
