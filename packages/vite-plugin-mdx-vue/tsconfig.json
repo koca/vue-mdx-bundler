@@ -1,23 +1,21 @@
 {
-  "extends": "../../tsconfig.lib.json",
-  "files": [
-    "../../typings.d.ts"
-  ],
-  "include": [
-    "src",
-    "types"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "__tests__",
-    "**/*.test*",
-    "**/*.spec*"
-  ],
   "compilerOptions": {
-    "rootDir": "./src",
-    "baseUrl": "./src",
-    "composite": true,
-    "noEmit": false
-  }
+    "module": "ESNext",
+    "target": "es2017",
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "esModuleInterop": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  },
+  "exclude": [
+    "**/dist",
+    "**/node_modules",
+    "**/test"
+  ]
 }
