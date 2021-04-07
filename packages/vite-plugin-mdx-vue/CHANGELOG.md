@@ -1,5 +1,11 @@
 # vite-plugin-mdx-vue
 
+## 1.1.2
+
+### Patch Changes
+
+-
+
 ## 1.1.1
 
 ### Patch Changes
