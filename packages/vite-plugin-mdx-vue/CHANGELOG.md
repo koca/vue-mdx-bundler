@@ -1,5 +1,12 @@
 # vite-plugin-mdx-vue
 
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies []:
+  - vue-mdx-bundler@1.1.0
+
 ## 1.1.2
 
 ### Patch Changes
