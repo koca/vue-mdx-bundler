@@ -17,14 +17,14 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap --use-workspaces",
+    "dev:mdx": "yarn workspace vue-mdx-bundler dev",
     "build:mdx": "yarn workspace vue-mdx-bundler build",
     "build:vite": "yarn workspace vite-plugin-mdx-vue build",
     "docs": "yarn workspace docs dev",
     "docs:build": "yarn workspace docs build",
     "lint": "eslint packages/ --fix",
-    "test": "yarn workspace vue-mdx-bundler test",
-    "test:watch": "yarn workspace vue-mdx-bundler test:watch",
-    "test:cov": "yarn workspace vue-mdx-bundler test:cov"
+    "test:mdx": "yarn workspace vue-mdx-bundler test",
+    "test:mdx:watch": "yarn workspace vue-mdx-bundler test:watch"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.3.0",
@@ -35,7 +35,7 @@
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-vue": "^7.8.0",
+    "eslint-plugin-vue": "^7.9.0",
     "husky": "^4.3.8",
     "lerna": "^3.22.0",
     "prettier": "^2.2.1"

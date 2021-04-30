@@ -19,45 +19,48 @@
   ],
   "description": "desc",
   "main": "dist/index.js",
-  "typings": "dist/src/index.d.ts",
+  "types": "dist/index.d.ts",
+  "type": "module",
   "files": [
+    "client",
     "dist",
-    "client.js",
-    "client.d.ts",
-    "index.d.ts"
+    "src"
   ],
-  "sideEffects": false,
   "module": "dist/index.js",
   "unpkg": "dist/index.js",
   "license": "MIT",
   "scripts": {
     "build": "kcd-scripts build",
-    "test": "kcd-scripts test",
-    "test:watch": "kcd-scripts test --watch"
+    "postbuild": "node ./scripts/postbuild.js",
+    "build:tsup": "tsup src/index.ts src/client.ts --external vue --no-splitting --target esnext --format esm,cjs --legacy-output --dts",
+    "dev": "yarn build --watch",
+    "test": "uvu -i setup-tests.js src/__tests__",
+    "test:watch": "watchlist dist tests -- yarn test"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.10.1",
     "@testing-library/vue": "^6.3.4",
-    "jest-environment-jsdom": "^26.6.2",
-    "jest-environment-jsdom-sixteen": "^1.0.3",
-    "jest-module-field-resolver": "^0.0.1",
-    "kcd-scripts": "^8.1.1",
-    "typescript": "^4.2.3",
-    "vue-jest": "^3.0.5"
+    "@types/jsdom": "^16.2.10",
+    "kcd-scripts": "^10.0.0",
+    "tsup": "^4.10.1",
+    "typescript": "^4.2.4",
+    "uvu": "^0.5.1",
+    "watchlist": "^0.2.3"
   },
   "peerDependencies": {},
   "dependencies": {
-    "@babel/core": "^7.13.10",
-    "@babel/runtime": "^7.13.10",
-    "@esbuild-plugins/node-resolve": "0.0.14",
+    "@babel/core": "^7.13.16",
+    "@babel/runtime": "^7.13.17",
+    "@esbuild-plugins/node-resolve": "0.1.4",
     "@fal-works/esbuild-plugin-global-externals": "^2.1.1",
-    "@vue/babel-plugin-jsx": "^1.0.3",
-    "@vue/server-renderer": "^3.0.7",
-    "esbuild": "0.9.0",
-    "gray-matter": "^4.0.2",
+    "@vue/babel-plugin-jsx": "^1.0.5",
+    "@vue/server-renderer": "^3.0.11",
+    "esbuild": "0.11.16",
+    "gray-matter": "^4.0.3",
+    "jsdom": "^16.5.3",
     "remark-frontmatter": "^3.0.0",
-    "remark-mdx-frontmatter": "^1.0.0",
-    "xdm": "^1.5.1"
+    "remark-mdx-frontmatter": "^1.0.1",
+    "ts-node": "^9.1.1",
+    "xdm": "^1.9.0"
   },
   "engines": {
     "node": ">=10"

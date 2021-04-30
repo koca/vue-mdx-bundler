@@ -1,6 +1,11 @@
-import { getMDXComponent } from '../client'
-import { render } from '../../tests/test-utils'
-import { bundleMDX } from '../index'
+import './setup-tests.js'
+import { test } from 'uvu'
+
+import * as assert from 'uvu/assert'
+import { getMDXComponent } from '../../dist/client.js'
+import { render } from '../../tests/test-utils.js'
+import { bundleMDX } from '../../dist/index.js'
+import { h } from 'vue'
 
 test('returns code and frontmatter', async () => {
   const mdxSource = `
@@ -11,14 +16,13 @@ description: This is some meta-data
 ---
 # This is the title
 
-Here's **neat** demo:
+Here's a **neat** demo:
 `.trim()
 
   const result = await bundleMDX(mdxSource, {
     files: {},
   })
 
-  // const MdxContent = `
   // import * as vue from "vue";
   // export const MdxContent = () => { ${result.code} };
   // export const frontmatter = ${JSON.stringify(result.frontmatter)}; `.trim()
@@ -31,9 +35,13 @@ Here's **neat** demo:
     components: { MdxComponent },
   })
 
-  expect(container).toMatchSnapshot()
+  assert.equal(
+    container.innerHTML,
+    `<h1>This is the title</h1>
+<p>Here's a <strong>neat</strong> demo:</p>`
+  )
 
-  expect(result.frontmatter).toEqual({
+  assert.equal(result.frontmatter, {
     description: 'This is some meta-data',
     published: new Date('2021-02-13T00:00:00.000Z'),
     title: 'Example Post',
@@ -66,11 +74,52 @@ export default Demo
     components: { MdxComponent },
   })
 
-  expect(container).toMatchSnapshot()
+  assert.equal(container.innerHTML, '<div>im imported from a js file</div>')
 })
 
 test('files is optional', async () => {
-  await expect(bundleMDX('hello')).resolves.toBeTruthy()
+  await bundleMDX('hello')
+})
+
+test('custom components works', async () => {
+  const mdxSource = `
+# Title h1
+
+text
+
+## Title h2
+`.trim()
+
+  const result = await bundleMDX(mdxSource)
+
+  const MdxComponent = getMDXComponent(result.code)
+
+  const { container } = render({
+    template: '<MdxComponent :components="components"></MdxComponent>',
+    components: { MdxComponent },
+    setup() {
+      return {
+        components: {
+          h1: (_props, context) => {
+            return h('div', { class: 'custom-h1' }, context.slots)
+          },
+          h2: (_props, context) => {
+            return h('div', { class: 'custom-h2' }, context.slots)
+          },
+          p: (_props, context) => {
+            return h('p', { class: 'custom-p' }, context.slots)
+          },
+        },
+      }
+    },
+  })
+
+  assert.equal(
+    container.innerHTML,
+    `<div class="custom-h1">Title h1</div>
+<p class="custom-p">text</p>
+<div class="custom-h2">Title h2</div>`.trim()
+  )
 })
 
 // we need to use sth like esbuild plugin vue
@@ -83,7 +132,8 @@ import Demo from './demo.vue'
 
   const result = await bundleMDX(mdxSource, {
     files: {
-      './demo.vue': `export default { setup () { return {msg: 'heyx'} }}
+      './demo.vue': `<template><h3>{{ msg }}</h3></template>
+<script>export default { setup () { return {msg: 'vue works'} }}</script>
       `.trim(),
     },
   })
@@ -95,5 +145,7 @@ import Demo from './demo.vue'
     components: { MdxComponent },
   })
 
-  expect(container).toMatchSnapshot()
+  assert.equal(container.innerHTML, `<h3>vue works</h3>`.trim())
 })
+
+test.run()

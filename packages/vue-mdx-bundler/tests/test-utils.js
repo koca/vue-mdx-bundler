@@ -1,11 +1,11 @@
 import * as vtl from '@testing-library/vue'
-import { Component, defineComponent, h } from 'vue'
+import { defineComponent, h } from 'vue'
 
-export interface RenderResult extends vtl.RenderResult {
-  asFragment: (innerHTML?: string) => DocumentFragment
-}
+// export interface RenderResult extends vtl.RenderResult {
+//   asFragment: (innerHTML?: string) => DocumentFragment
+// }
 
-export const render = (component: Component | any, ...rest: any | undefined): RenderResult => {
+export const render = (component, ...rest) => {
   const utils = vtl.render(
     defineComponent({
       name: 'MKVueTestUtils',
