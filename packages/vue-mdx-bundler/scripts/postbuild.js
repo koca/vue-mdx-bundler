@@ -27,4 +27,4 @@ fs.rmdirSync(path.join(distPath, 'src'))
 // code imports it with the extension (becuase during dev we're native ESM so we
 // have to) and it's easier to update the extension than it would be to update
 // the import in the code during the build.
-// fs.renameSync(path.join(distPath, 'dirname-messed-up.js'), path.join(distPath, 'dirname-messed-up.cjs'))
+fs.renameSync(path.join(distPath, 'dirname-messed-up.js'), path.join(distPath, 'dirname-messed-up.cjs'))

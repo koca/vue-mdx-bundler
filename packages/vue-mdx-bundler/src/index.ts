@@ -10,6 +10,7 @@ import { NodeResolvePlugin } from '@esbuild-plugins/node-resolve'
 import { globalExternals } from '@fal-works/esbuild-plugin-global-externals'
 import type { ModuleInfo } from '@fal-works/esbuild-plugin-global-externals'
 import type { VFileCompatible, CompileOptions } from 'xdm/lib/compile'
+import dirnameMessedUp from './dirname-messed-up.cjs'
 
 import { transformAsync as babel } from '@babel/core'
 const { readFile, unlink } = fs.promises
@@ -148,6 +149,11 @@ async function bundleMDX(
     cwd = path.join(process.cwd(), `__mdx_bundler_fake_dir__`),
   }: BundleMDXOptions = {}
 ) {
+  if (dirnameMessedUp && !process.env.ESBUILD_BINARY_PATH) {
+    console.warn(
+      `mdx-bundler warning: esbuild maybe unable to find its binary, if your build fails you'll need to set ESBUILD_BINARY_PATH. Learn more: https://github.com/kentcdodds/mdx-bundler/blob/main/README.md#nextjs-esbuild-enoent`
+    )
+  }
   // xdm is a native ESM, and we're running in a CJS context. This is the
   // only way to import ESM within CJS
   const [{ compile: compileMDX }, { default: xdmESBuild }] = await Promise.all([
