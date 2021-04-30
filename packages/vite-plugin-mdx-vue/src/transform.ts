@@ -1,5 +1,6 @@
 import { renderToString } from '@vue/server-renderer'
-import { bundleMDX, getMDXComponent } from 'vue-mdx-bundler'
+import { bundleMDX } from 'vue-mdx-bundler'
+import { getMDXComponent } from 'vue-mdx-bundler/client'
 import { Options } from './types'
 import vue from 'vue'
 
