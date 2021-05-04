@@ -1,5 +1,11 @@
 # vue-mdx-bundler
 
+## 1.3.0
+
+### Minor Changes
+
+- convert jsx props to v-bind
+
 ## 1.2.0
 
 ### Minor Changes

@@ -1,5 +1,16 @@
 # vite-plugin-mdx-vue
 
+## 1.3.0
+
+### Minor Changes
+
+- convert ssr app to vue app
+
+### Patch Changes
+
+- Updated dependencies []:
+  - vue-mdx-bundler@1.3.0
+
 ## 1.2.0
 
 ### Minor Changes
