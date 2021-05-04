@@ -11,6 +11,8 @@ import { globalExternals } from '@fal-works/esbuild-plugin-global-externals'
 import type { ModuleInfo } from '@fal-works/esbuild-plugin-global-externals'
 import type { VFileCompatible, CompileOptions } from 'xdm/lib/compile'
 import dirnameMessedUp from './dirname-messed-up.cjs'
+//@ts-ignore
+import setProps from './set-props.js'
 
 import { transformAsync as babel } from '@babel/core'
 const { readFile, unlink } = fs.promises
@@ -219,8 +221,14 @@ async function bundleMDX(
                 remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter, { name: 'frontmatter' }]],
               })
             )
+            const babelPlugins = ['@vue/babel-plugin-jsx']
 
-            let vueJsCode = (await babel(vfile.toString(), { plugins: ['@vue/babel-plugin-jsx'] }))!.code || ''
+            // convert jsxProp={{ key: "value"}} to :jsxProp="{key:'value'}" etc
+            if (mockResolveComponent) {
+              babelPlugins.push(setProps)
+            }
+
+            let vueJsCode = (await babel(vfile.toString(), { plugins: babelPlugins }))!.code || ''
 
             // vueJsCode = vueJsCode.replace(
             //   /import {[^}]+} from "vue";/,

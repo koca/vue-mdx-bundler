@@ -35,7 +35,7 @@
     "build:tsup": "tsup src/index.ts src/client.ts --external vue --no-splitting --target esnext --format esm,cjs --legacy-output --dts",
     "dev": "yarn build --watch",
     "test": "uvu -i setup-tests.js src/__tests__",
-    "test:watch": "watchlist dist tests -- yarn test"
+    "test:watch:notworking": "watchlist dist tests -- yarn test"
   },
   "devDependencies": {
     "@testing-library/vue": "^6.3.4",

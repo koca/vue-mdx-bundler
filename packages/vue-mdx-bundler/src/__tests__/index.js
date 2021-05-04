@@ -77,6 +77,116 @@ export default Demo
   assert.equal(container.innerHTML, '<div>im imported from a js file</div>')
 })
 
+test('props works', async () => {
+  const mdxSource = `
+import Demo from './demo'
+
+<Demo str="hello" num={2} arr={[1,2,3]} obj={{ hey: 'there' }} />
+`.trim()
+
+  const result = await bundleMDX(mdxSource, {
+    files: {
+      './demo.js': `
+import {h, defineComponent} from "vue"
+const Demo = defineComponent({
+  props:["str", "num", "arr", "obj"],
+  setup(props){
+    const propStr = "string: " + JSON.stringify(props?.str)
+    const propInt = "number: " + JSON.stringify(props?.num)
+    const propArr = "array: " + JSON.stringify(props?.arr)
+    const propObj = "object: " + JSON.stringify(props?.obj)
+    return () => {
+      return h('div',{}, [propStr, propInt, propArr, propObj].join(", "))
+    }
+  }
+})
+export default Demo
+      `.trim(),
+    },
+  })
+
+  const MdxComponent = getMDXComponent(result.code)
+
+  const { container } = render({
+    template: '<MdxComponent></MdxComponent>',
+    components: { MdxComponent },
+  })
+
+  assert.equal(container.innerHTML, '<div>string: "hello", number: 2, array: [1,2,3], object: {"hey":"there"}</div>')
+})
+
+test('slot works', async () => {
+  const mdxSource = `
+import Demo from './demo'
+
+<Demo>Hello slot</Demo>
+`.trim()
+
+  const result = await bundleMDX(mdxSource, {
+    files: {
+      './demo.js': `
+import {h, defineComponent} from "vue"
+const Demo = defineComponent({
+  setup(props, {slots}){
+    return () => {
+      return h('div',{}, slots)
+    }
+  }
+})
+export default Demo
+      `.trim(),
+    },
+  })
+  //
+  const MdxComponent = getMDXComponent(result.code)
+
+  const { container } = render({
+    template: '<MdxComponent></MdxComponent>',
+    components: { MdxComponent },
+  })
+
+  assert.equal(container.innerHTML, '<div>Hello slot</div>')
+})
+
+test('convert props to string literal for vite', async () => {
+  const mdxSource = `
+import Demo from './demo'
+
+<Demo str="hello" num={2} arr={[1,2,3]} obj={{ hey: 'there' }}> attrs check </Demo>
+`.trim()
+
+  const result = await bundleMDX(mdxSource, {
+    mockResolveComponent: true,
+    files: {
+      './demo.js': `
+import {h, defineComponent} from "vue"
+const Demo = defineComponent({
+  setup(props, {slots}){
+    return () => {
+      return h('div',{}, slots)
+    }
+  }
+})
+export default Demo
+      `.trim(),
+    },
+  })
+
+  const MdxComponent = getMDXComponent(result.code)
+
+  const { container } = render({
+    template: '<MdxComponent></MdxComponent>',
+    components: { MdxComponent },
+  })
+
+  assert.equal(
+    container.innerHTML,
+    `<div str="hello" :num="2" :arr="[1, 2, 3]" :obj="{
+    hey: 'there'
+  }"> attrs check </div>`
+  )
+})
+
 test('files is optional', async () => {
   await bundleMDX('hello')
 })
