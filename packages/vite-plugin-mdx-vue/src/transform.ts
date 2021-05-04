@@ -13,20 +13,20 @@ export function createMdxTransformerSFC(userOptions: Options = { mdxComponents: 
 
     const MdxComponent = getMDXComponent(bundled.code)
 
+    const app = vue.createApp({
+      components: {
+        MdxComponent,
+      },
+      template: '<MdxComponent :components="mdxComponents" />',
+      setup() {
+        return {
+          mdxComponents: userOptions.mdxComponents,
+        }
+      },
+    })
+
     // to support vite-plugin-components we need to render template to string
-    const renderedTemplate = await renderToString(
-      vue.createSSRApp({
-        components: {
-          MdxComponent,
-        },
-        template: '<MdxComponent :components="mdxComponents" />',
-        setup() {
-          return {
-            mdxComponents: userOptions.mdxComponents,
-          }
-        },
-      })
-    )
+    let renderedTemplate = await renderToString(app)
 
     const sfcTemplate = wrapperComponent
       ? `<${wrapperComponent} :frontmatter="frontmatter">${renderedTemplate}</${wrapperComponent}>`
