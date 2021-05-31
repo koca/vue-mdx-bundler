@@ -232,6 +232,32 @@ text
   )
 })
 
+test('extend frontmatter', async () => {
+  const mdxSource = `
+---
+title: Example Post
+---
+# Extending frontmatter
+`.trim()
+
+  const result = await bundleMDX(mdxSource, {
+    files: {},
+    extendFrontmatter: {
+      process: (_mdxContent, frontmatter) => {
+        return {
+          title: frontmatter.title,
+          description: 'extended description',
+        }
+      },
+    },
+  })
+
+  assert.equal(result.frontmatter, {
+    description: 'extended description',
+    title: 'Example Post',
+  })
+})
+
 // we need to use sth like esbuild plugin vue
 test.skip('import vue files', async () => {
   const mdxSource = `

@@ -138,6 +138,13 @@ export type BundleMDXOptions = {
    * ```
    */
   cwd?: string
+
+  /**
+   * Extend frontmatter
+   */
+  extendFrontmatter?: {
+    process: (mdxContent: string, frontMatter: any) => object
+  }
 }
 
 async function bundleMDX(
@@ -149,6 +156,7 @@ async function bundleMDX(
     globals = {},
     mockResolveComponent = false,
     cwd = path.join(process.cwd(), `__mdx_bundler_fake_dir__`),
+    extendFrontmatter,
   }: BundleMDXOptions = {}
 ) {
   if (dirnameMessedUp && !process.env.ESBUILD_BINARY_PATH) {
@@ -164,6 +172,12 @@ async function bundleMDX(
   ])
   // extract the frontmatter
   const { data: frontmatter } = matter(mdxSource)
+
+  let extendedFrontmatter = frontmatter
+  //extend frontmatter
+  if (extendFrontmatter && extendFrontmatter.process) {
+    extendedFrontmatter = extendFrontmatter.process(mdxSource, frontmatter)
+  }
 
   const entryPath = path.join(cwd, './_mdx_bundler_entry_point.mdx')
 
@@ -306,7 +320,7 @@ async function bundleMDX(
 
     return {
       code: `${code};return Component.default;`,
-      frontmatter,
+      frontmatter: extendedFrontmatter,
     }
   }
 
@@ -317,7 +331,7 @@ async function bundleMDX(
 
     return {
       code: `${code};return Component.default;`,
-      frontmatter,
+      frontmatter: extendedFrontmatter,
     }
   }
 
