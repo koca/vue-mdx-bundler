@@ -1,5 +1,16 @@
 # vite-plugin-mdx-vue
 
+## 1.4.0
+
+### Minor Changes
+
+- add ability to extend frontmatter using extendFrontmatter option
+
+### Patch Changes
+
+- Updated dependencies []:
+  - vue-mdx-bundler@1.4.0
+
 ## 1.3.0
 
 ### Minor Changes
