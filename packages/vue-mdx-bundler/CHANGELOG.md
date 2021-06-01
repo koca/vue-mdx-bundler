@@ -1,5 +1,11 @@
 # vue-mdx-bundler
 
+## 1.5.0
+
+### Minor Changes
+
+- make extendFrontmatter.process async
+
 ## 1.4.0
 
 ### Minor Changes

@@ -1,5 +1,16 @@
 # vite-plugin-mdx-vue
 
+## 1.5.0
+
+### Minor Changes
+
+- add \_\_resourcePath to frontmatter
+
+### Patch Changes
+
+- Updated dependencies []:
+  - vue-mdx-bundler@1.5.0
+
 ## 1.4.0
 
 ### Minor Changes
