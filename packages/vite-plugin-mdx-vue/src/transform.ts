@@ -12,8 +12,12 @@ export function createMdxTransformerSFC(userOptions: Options = { mdxComponents: 
   return async (_id: string, raw: string) => {
     const relativePath = path.relative(process.cwd(), _id)
 
+    if (!userOptions.extendFrontmatter) userOptions.extendFrontmatter = {}
+    userOptions.extendFrontmatter.extend = Object.assign({}, userOptions.extendFrontmatter?.extend, {
+      __resourcePath: relativePath,
+    })
+
     let bundled = await bundleMDX(raw, userOptions)
-    bundled.frontmatter.__resourcePath = relativePath
 
     const MdxComponent = getMDXComponent(bundled.code)
 
