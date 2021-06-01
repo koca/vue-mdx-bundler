@@ -243,7 +243,7 @@ title: Example Post
   const result = await bundleMDX(mdxSource, {
     files: {},
     extendFrontmatter: {
-      process: (_mdxContent, frontmatter) => {
+      process: async (_mdxContent, frontmatter) => {
         return {
           title: frontmatter.title,
           description: 'extended description',
