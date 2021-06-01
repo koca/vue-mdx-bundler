@@ -243,9 +243,10 @@ title: Example Post
   const result = await bundleMDX(mdxSource, {
     files: {},
     extendFrontmatter: {
+      extend: { version: '1' },
       process: async (_mdxContent, frontmatter) => {
         return {
-          title: frontmatter.title,
+          ...frontmatter,
           description: 'extended description',
         }
       },
@@ -253,8 +254,9 @@ title: Example Post
   })
 
   assert.equal(result.frontmatter, {
-    description: 'extended description',
     title: 'Example Post',
+    description: 'extended description',
+    version: '1',
   })
 })
 

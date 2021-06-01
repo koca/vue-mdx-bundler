@@ -143,7 +143,8 @@ export type BundleMDXOptions = {
    * Extend frontmatter
    */
   extendFrontmatter?: {
-    process: (mdxContent: string, frontMatter: any) => Promise<object>
+    extend?: Object
+    process?: (mdxContent: string, frontMatter: any) => Promise<object>
   }
 }
 
@@ -173,10 +174,9 @@ async function bundleMDX(
   // extract the frontmatter
   const { data: frontmatter } = matter(mdxSource)
 
-  let extendedFrontmatter = frontmatter
-  //extend frontmatter
+  let extendedFrontmatter = { ...frontmatter, ...extendFrontmatter?.extend }
   if (extendFrontmatter && extendFrontmatter.process) {
-    extendedFrontmatter = await extendFrontmatter.process(mdxSource, frontmatter)
+    extendedFrontmatter = await extendFrontmatter.process(mdxSource, extendedFrontmatter)
   }
 
   const entryPath = path.join(cwd, './_mdx_bundler_entry_point.mdx')
