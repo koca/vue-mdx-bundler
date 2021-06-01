@@ -1,5 +1,11 @@
 # vue-mdx-bundler
 
+## 1.6.0
+
+### Minor Changes
+
+- add extend option to extend frontmatter
+
 ## 1.5.0
 
 ### Minor Changes

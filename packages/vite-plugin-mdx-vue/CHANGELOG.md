@@ -1,5 +1,16 @@
 # vite-plugin-mdx-vue
 
+## 1.6.0
+
+### Minor Changes
+
+- fix `__resourcePath`
+
+### Patch Changes
+
+- Updated dependencies []:
+  - vue-mdx-bundler@1.6.0
+
 ## 1.5.0
 
 ### Minor Changes
