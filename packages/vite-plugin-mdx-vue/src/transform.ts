@@ -2,6 +2,7 @@ import { renderToString } from '@vue/server-renderer'
 import { bundleMDX } from 'vue-mdx-bundler'
 import { getMDXComponent } from 'vue-mdx-bundler/client'
 import { Options } from './types'
+import path from 'path'
 import vue from 'vue'
 
 export function createMdxTransformerSFC(userOptions: Options = { mdxComponents: {} }) {
@@ -9,7 +10,10 @@ export function createMdxTransformerSFC(userOptions: Options = { mdxComponents: 
   const { wrapperComponent } = userOptions
 
   return async (_id: string, raw: string) => {
+    const relativePath = path.relative(process.cwd(), _id)
+
     let bundled = await bundleMDX(raw, userOptions)
+    bundled.frontmatter.__resourcePath = relativePath
 
     const MdxComponent = getMDXComponent(bundled.code)
 
