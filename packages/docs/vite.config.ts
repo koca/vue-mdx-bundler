@@ -35,7 +35,23 @@ export default defineConfig({
     VueMdx({
       wrapperComponent: 'mdx-layout-wrapper',
       mdxComponents: {
-        em: (props, context) => vue.h('i', { style: 'color:skyblue' }, context.slots),
+        pre: (props: any, context: any) => {
+          // if you use remark plugins like `remark-mdx-code-meta` pre, props and default slot might be different just console.log it
+          const pre = context?.slots?.default?.()?.[0]
+          const defaultSlot = pre?.children[0] || ''
+          const code = defaultSlot //
+          const realProps = pre?.props
+          const [, language] = realProps?.className?.split('-') // language-js
+
+          const component = vue.h(
+            'MdxPre',
+            { ...props, ...realProps, language, code },
+            // if you pass the `code` as a slot there is a special characters issue idk why so pass it as a prop to your custom component `MdxPre`
+            {}
+          )
+          return component
+        },
+        em: (props: any, context: any) => vue.h('i', { style: 'color:skyblue' }, context.slots),
         D: () => '<3',
       },
     }),
