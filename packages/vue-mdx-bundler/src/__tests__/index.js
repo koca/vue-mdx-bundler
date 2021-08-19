@@ -260,6 +260,37 @@ title: Example Post
   })
 })
 
+test('parses code correctly', async () => {
+  const mdxSource = `
+\`\`\`js
+const userService = {
+  login() {
+    return 'logged in yo';
+  }
+}
+\`\`\`
+
+`
+
+  const result = await bundleMDX(mdxSource)
+  const MdxComponent = getMDXComponent(result.code)
+
+  const { container } = render({
+    template: '<MdxComponent></MdxComponent>',
+    components: { MdxComponent },
+  })
+
+  assert.equal(
+    container.innerHTML,
+    `<pre><code class="language-js">const userService = {
+  login() {
+    return 'logged in yo';
+  }
+}
+</code></pre>`
+  )
+})
+
 // we need to use sth like esbuild plugin vue
 test.skip('import vue files', async () => {
   const mdxSource = `
